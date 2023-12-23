@@ -1,0 +1,53 @@
+version: "3.6"
+
+networks:
+  nilesh-home:
+    driver: bridge
+
+services:
+  cloudflare-ddns:
+    container_name: "cloudflare-ddns"
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    env_file:
+      - "./env/cloudflare-ddns.env"
+    # volumes:
+    #   - ./cloudflare-ddns:/app
+    networks:
+      - nilesh-home
+
+  # cloudflared:
+  #   container_name: "cloudflared-tunnel"
+  #   image: cloudflare/cloudflared:latest
+  #   # env_file:
+  #   #   - "./env/cloudflared.env"
+  #   restart: always
+  #   # environment:
+  #   #   - TOKEN=""
+  #   volumes:
+  #     - ./cloudflared/:/app
+  #   command: "tunnel --no-autoupdate run --icmpv4-src host.docker.internal --token  && ls && env"
+  #   # command: tunnel --no-autoupdate run --token $TOKEN
+  #   networks:
+  #     - nilesh-home
+
+  webserver:
+    container_name: "webserver"
+    # image: nginx:latest
+    build:
+      context: ./webserver
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - "./env/webserver.env"
+    volumes:
+      - ./webserver/nginx/public_html:/public_html
+      - ./webserver/nginx/conf.d:/etc/nginx/conf.d
+      - ./webserver/nginx/templates:/etc/nginx/templates
+      - ./webserver/logs:/logs
+      # - ./webserver/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - nilesh-home
