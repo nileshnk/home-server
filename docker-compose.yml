@@ -5,16 +5,16 @@ networks:
     driver: bridge
 
 services:
-  cloudflare-ddns:
-    container_name: "cloudflare-ddns"
-    image: oznu/cloudflare-ddns:latest
-    restart: always
-    env_file:
-      - "./env/cloudflare-ddns.env"
-    # volumes:
-    #   - ./cloudflare-ddns:/app
-    networks:
-      - nilesh-home
+  # cloudflare-ddns:
+  #   container_name: "cloudflare-ddns"
+  #   image: oznu/cloudflare-ddns:latest
+  #   restart: always
+  #   env_file:
+  #     - "./env/cloudflare-ddns.env"
+  #   # volumes:
+  #   #   - ./cloudflare-ddns:/app
+  #   networks:
+  #     - nilesh-home
 
   # cloudflared:
   #   container_name: "cloudflared-tunnel"
