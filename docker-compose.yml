@@ -48,6 +48,7 @@ services:
       - ./webserver/nginx/conf.d:/etc/nginx/conf.d
       - ./webserver/nginx/templates:/etc/nginx/templates
       - ./webserver/logs:/logs
+      - /etc/letsencrypt:/certbot
       # - ./webserver/nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - nilesh-home
